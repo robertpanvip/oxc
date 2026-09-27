@@ -4,6 +4,7 @@ name: Build Scriptc Oxlint
 # Builds native `oxlint` binaries that carry the scriptc plugin rules, for use
 # by the scriptc repository (`pnpm lint:ox`) and the IDEA plugin (LSP mode).
 # Trigger manually from the Actions tab, or push to scriptc-rules.
+# Requires Actions to be enabled on this fork (Settings or Actions tab).
 
 permissions:
   contents: write
