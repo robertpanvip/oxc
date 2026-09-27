@@ -1,0 +1,38 @@
+---
+source: crates/oxc_linter/src/tester.rs
+---
+
+  ⚠ scriptc(no-date-fenced-usage): the 3-argument `new Date(y, m, ...)` constructor is fenced in scriptc
+   ╭─[no_date_fenced_usage.tsx:1:11]
+ 1 │ const d = new Date(2026, 8, 27);
+   ·           ─────────────────────
+   ╰────
+  help: Use `new Date(number)` or `new Date(dateString)` (date-only or explicit-Z/offset forms), or the `Date.parse(dateString)` form.
+
+  ⚠ scriptc(no-date-fenced-usage): the 5-argument `new Date(y, m, ...)` constructor is fenced in scriptc
+   ╭─[no_date_fenced_usage.tsx:1:1]
+ 1 │ new Date(2026, 8, 27, 10, 30);
+   · ─────────────────────────────
+   ╰────
+  help: Use `new Date(number)` or `new Date(dateString)` (date-only or explicit-Z/offset forms), or the `Date.parse(dateString)` form.
+
+  ⚠ scriptc(no-date-fenced-usage): `Date` setters (`setFullYear`) are fenced in scriptc
+   ╭─[no_date_fenced_usage.tsx:1:36]
+ 1 │ const d = new Date(1758950000000); d.setFullYear(2030);
+   ·                                    ───────────────────
+   ╰────
+  help: Construct a new `Date` value from an epoch number or a supported date string instead of mutating an existing one.
+
+  ⚠ scriptc(no-date-fenced-usage): `Date` setters (`setTime`) are fenced in scriptc
+   ╭─[no_date_fenced_usage.tsx:1:36]
+ 1 │ const d = new Date(1758950000000); d.setTime(1);
+   ·                                    ────────────
+   ╰────
+  help: Construct a new `Date` value from an epoch number or a supported date string instead of mutating an existing one.
+
+  ⚠ scriptc(no-date-fenced-usage): `Date` setters (`setUTCHours`) are fenced in scriptc
+   ╭─[no_date_fenced_usage.tsx:1:36]
+ 1 │ const d = new Date(1758950000000); d.setUTCHours(3);
+   ·                                    ────────────────
+   ╰────
+  help: Construct a new `Date` value from an epoch number or a supported date string instead of mutating an existing one.

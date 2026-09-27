@@ -1,0 +1,17 @@
+---
+source: crates/oxc_linter/src/tester.rs
+---
+
+  ⚠ scriptc(promise-all-inline-tuple): inline `Promise.all([...])` infers a tuple type; tuple edges are fenced
+   ╭─[promise_all_inline_tuple.tsx:1:17]
+ 1 │ const r = await Promise.all([work(1), work(2)]);
+   ·                 ───────────────────────────────
+   ╰────
+  help: Type the array first: `const jobs: Promise<number>[] = [...]; await Promise.all(jobs);` — see the scriptc limitations page on tuple inference.
+
+  ⚠ scriptc(promise-all-inline-tuple): inline `Promise.all([...])` infers a tuple type; tuple edges are fenced
+   ╭─[promise_all_inline_tuple.tsx:1:11]
+ 1 │ const r = Promise.all([a, b, c]);
+   ·           ──────────────────────
+   ╰────
+  help: Type the array first: `const jobs: Promise<number>[] = [...]; await Promise.all(jobs);` — see the scriptc limitations page on tuple inference.

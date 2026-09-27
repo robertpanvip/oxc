@@ -1,0 +1,31 @@
+---
+source: crates/oxc_linter/src/tester.rs
+---
+
+  ⚠ scriptc(no-process-exitcode-misuse): `process.exitCode` outside a statement-position numeric write is fenced
+   ╭─[no_process_exitcode_misuse.tsx:1:5]
+ 1 │ if (process.exitCode === 1) {}
+   ·     ────────────────
+   ╰────
+  help: Reading or resetting `process.exitCode` is fenced; only numeric statement-position writes compile.
+
+  ⚠ scriptc(no-process-exitcode-misuse): `process.exitCode` outside a statement-position numeric write is fenced
+   ╭─[no_process_exitcode_misuse.tsx:1:14]
+ 1 │ const code = process.exitCode;
+   ·              ────────────────
+   ╰────
+  help: Reading or resetting `process.exitCode` is fenced; only numeric statement-position writes compile.
+
+  ⚠ scriptc(no-process-exitcode-misuse): `process.exitCode` outside a statement-position numeric write is fenced
+   ╭─[no_process_exitcode_misuse.tsx:1:15]
+ 1 │ const code = (process.exitCode = 2);
+   ·               ────────────────
+   ╰────
+  help: Assignments used as values are fenced; write it as a bare statement.
+
+  ⚠ scriptc(no-process-exitcode-misuse): `process.exitCode` outside a statement-position numeric write is fenced
+   ╭─[no_process_exitcode_misuse.tsx:1:5]
+ 1 │ foo(process.exitCode);
+   ·     ────────────────
+   ╰────
+  help: Reading or resetting `process.exitCode` is fenced; only numeric statement-position writes compile.

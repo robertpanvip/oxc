@@ -1,0 +1,38 @@
+---
+source: crates/oxc_linter/src/tester.rs
+---
+
+  ⚠ scriptc(no-fenced-globals): `Symbol` is outside scriptc's lowered static surface (SC2020)
+   ╭─[no_fenced_globals.tsx:1:11]
+ 1 │ const k = Symbol('id');
+   ·           ──────
+   ╰────
+  help: Symbol is not lowered in static builds; use string or number keys and plain string constants instead.
+
+  ⚠ scriptc(no-fenced-globals): `globalThis` is outside scriptc's lowered static surface (SC2020)
+   ╭─[no_fenced_globals.tsx:1:14]
+ 1 │ const host = globalThis;
+   ·              ──────────
+   ╰────
+  help: `globalThis` as a value is fenced in static builds; the dynamic tier exposes it through the island host object.
+
+  ⚠ scriptc(no-fenced-globals): `console.table` is outside scriptc's lowered static surface (SC2020)
+   ╭─[no_fenced_globals.tsx:1:1]
+ 1 │ console.table(rows);
+   · ───────────────────
+   ╰────
+  help: console.table has no lowering; it lands on SC2020.
+
+  ⚠ scriptc(no-fenced-globals): `console.time` is outside scriptc's lowered static surface (SC2020)
+   ╭─[no_fenced_globals.tsx:1:1]
+ 1 │ console.time('t');
+   · ─────────────────
+   ╰────
+  help: console.time has no lowering; it lands on SC2020.
+
+  ⚠ scriptc(no-fenced-globals): `WeakRef` is outside scriptc's lowered static surface (SC2020)
+   ╭─[no_fenced_globals.tsx:1:5]
+ 1 │ new WeakRef(x);
+   ·     ───────
+   ╰────
+  help: WeakRef is not supported; memory is reference-counted with deterministic cycle collection.

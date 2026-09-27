@@ -1,0 +1,10 @@
+---
+source: crates/oxc_linter/src/tester.rs
+---
+
+  ⚠ scriptc(no-locale-compare): `localeCompare` compares code units in scriptc, not ICU collation
+   ╭─[no_locale_compare.tsx:1:15]
+ 1 │ const cmp = a.localeCompare(b);
+   ·               ─────────────
+   ╰────
+  help: This is a documented divergence from Node: results can differ from V8 for locale-sensitive ordering. Sort with a plain comparator or normalize first if byte-stable order is what you need.

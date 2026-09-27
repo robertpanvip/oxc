@@ -1,0 +1,52 @@
+---
+source: crates/oxc_linter/src/tester.rs
+---
+
+  ⚠ scriptc(no-commonjs-metadata-mutation): writing `module.paths` is an explicit scriptc refusal
+   ╭─[no_commonjs_metadata_mutation.tsx:1:1]
+ 1 │ module.paths.push('./x');
+   · ────────────────────────
+   ╰────
+  help: A compiled binary has a fixed module graph; CommonJS module metadata is read-only.
+
+  ⚠ scriptc(no-commonjs-metadata-mutation): writing `module.loaded` is an explicit scriptc refusal
+   ╭─[no_commonjs_metadata_mutation.tsx:1:1]
+ 1 │ module.loaded = true;
+   · ─────────────
+   ╰────
+  help: A compiled binary has a fixed module graph; CommonJS module metadata is read-only.
+
+  ⚠ scriptc(no-commonjs-metadata-mutation): writing `module.id` is an explicit scriptc refusal
+   ╭─[no_commonjs_metadata_mutation.tsx:1:1]
+ 1 │ module.id = 'x';
+   · ─────────
+   ╰────
+  help: A compiled binary has a fixed module graph; CommonJS module metadata is read-only.
+
+  ⚠ scriptc(no-commonjs-metadata-mutation): writing `require.main` is an explicit scriptc refusal
+   ╭─[no_commonjs_metadata_mutation.tsx:1:1]
+ 1 │ require.main = module;
+   · ────────────
+   ╰────
+  help: A compiled binary has a fixed module graph; CommonJS module metadata is read-only.
+
+  ⚠ scriptc(no-commonjs-metadata-mutation): writing `delete require.cache[...]` is an explicit scriptc refusal
+   ╭─[no_commonjs_metadata_mutation.tsx:1:8]
+ 1 │ delete require.cache[k];
+   ·        ────────────────
+   ╰────
+  help: A compiled binary has a fixed module graph; CommonJS module metadata is read-only.
+
+  ⚠ scriptc(no-commonjs-metadata-mutation): writing `require.cache[k]` is an explicit scriptc refusal
+   ╭─[no_commonjs_metadata_mutation.tsx:1:1]
+ 1 │ require.cache[k] = undefined;
+   · ────────────────
+   ╰────
+  help: A compiled binary has a fixed module graph; CommonJS module metadata is read-only.
+
+  ⚠ scriptc(no-commonjs-metadata-mutation): `require.extensions` is an explicit scriptc refusal
+   ╭─[no_commonjs_metadata_mutation.tsx:1:1]
+ 1 │ require.extensions['.ts'] = f;
+   · ──────────────────
+   ╰────
+  help: A compiled binary embeds its module graph at build time; there is no source loader to extend.

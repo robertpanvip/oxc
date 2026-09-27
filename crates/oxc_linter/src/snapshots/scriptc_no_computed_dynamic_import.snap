@@ -1,0 +1,24 @@
+---
+source: crates/oxc_linter/src/tester.rs
+---
+
+  ⚠ scriptc(no-computed-dynamic-import): computed `import()` specifiers stay fenced in scriptc
+   ╭─[no_computed_dynamic_import.tsx:1:32]
+ 1 │ const name = './worker'; await import(name);
+   ·                                ────────────
+   ╰────
+  help: Literal `import()` of compiled ESM/TypeScript modules and supported Node builtins compiles without the dynamic engine; a computed specifier requires `--dynamic` (or lands on an explicit fence).
+
+  ⚠ scriptc(no-computed-dynamic-import): computed `import()` specifiers stay fenced in scriptc
+   ╭─[no_computed_dynamic_import.tsx:1:7]
+ 1 │ await import(`./workers/${id}.ts`);
+   ·       ────────────────────────────
+   ╰────
+  help: Literal `import()` of compiled ESM/TypeScript modules and supported Node builtins compiles without the dynamic engine; a computed specifier requires `--dynamic` (or lands on an explicit fence).
+
+  ⚠ scriptc(no-computed-dynamic-import): computed `import()` specifiers stay fenced in scriptc
+   ╭─[no_computed_dynamic_import.tsx:1:7]
+ 1 │ await import('./a' + suffix);
+   ·       ──────────────────────
+   ╰────
+  help: Literal `import()` of compiled ESM/TypeScript modules and supported Node builtins compiles without the dynamic engine; a computed specifier requires `--dynamic` (or lands on an explicit fence).

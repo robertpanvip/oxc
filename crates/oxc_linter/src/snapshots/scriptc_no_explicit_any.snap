@@ -1,0 +1,30 @@
+---
+source: crates/oxc_linter/src/tester.rs
+---
+
+  ⚠ scriptc(no-explicit-any): explicit `any` is a compile error in static scriptc builds (SC2011)
+   ╭─[no_explicit_any.tsx:1:10]
+ 1 │ const x: any = 1;
+   ·          ───
+   ╰────
+  help: Use `unknown` with a checked cast (`JSON.parse(s) as Config`), or opt into the dynamic engine with `--dynamic`.
+
+  ⚠ scriptc(no-explicit-any): explicit `any` is a compile error in static scriptc builds (SC2011)
+   ╭─[no_explicit_any.tsx:1:16]
+ 1 │ const y = v as any;
+   ·                ───
+   ╰────
+  help: Use `unknown` with a checked cast (`JSON.parse(s) as Config`), or opt into the dynamic engine with `--dynamic`.
+
+  × Unexpected token
+   ╭─[no_explicit_any.tsx:1:16]
+ 1 │ const z = <any>v;
+   ·                ──
+   ╰────
+
+  ⚠ scriptc(no-explicit-any): explicit `any` is a compile error in static scriptc builds (SC2011)
+   ╭─[no_explicit_any.tsx:1:15]
+ 1 │ function f(x: any) {}
+   ·               ───
+   ╰────
+  help: Use `unknown` with a checked cast (`JSON.parse(s) as Config`), or opt into the dynamic engine with `--dynamic`.
