@@ -1,0 +1,135 @@
+name: Build Scriptc Oxlint
+
+# Downstream-only workflow for the robertpanvip fork (scriptc-rules branch).
+# Builds native `oxlint` binaries that carry the scriptc plugin rules, for use
+# by the scriptc repository (`pnpm lint:ox`) and the IDEA plugin (LSP mode).
+# Trigger manually from the Actions tab, or push to scriptc-rules.
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - scriptc-rules
+    paths:
+      - "crates/oxc_linter/src/rules/scriptc/**"
+      - "crates/oxc_linter/src/rules.rs"
+      - "crates/oxc_linter/src/generated/**"
+      - "Cargo.lock"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # The scriptc repo and its developers are Windows-first.
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            cross: false
+
+          # Common CI / contributor platforms.
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            cross: false
+          - os: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+            cross: true
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            cross: false
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            cross: false
+
+    name: Build oxlint (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - if: ${{ contains(matrix.os, 'windows') }}
+        run: git config --system core.longpaths true
+
+      - uses: taiki-e/checkout-action@7d1e50e93dc4fb3bba58f85018fadf77898aee8b # v1.4.2
+
+      - name: Add Rust target
+        run: rustup target add ${{ matrix.target }}
+
+      - name: Install cross
+        if: ${{ matrix.cross }}
+        uses: taiki-e/install-action@76c2e6406e52637deed7160d77bded76bd83e06e # v2.87.14
+        with:
+          tool: cross
+
+      # Sanity gate: the scriptc rules' unit tests must pass on the primary
+      # target before anything is published. Other targets skip straight to
+      # the release build to keep the matrix fast.
+      - name: Run scriptc rule tests
+        if: ${{ matrix.target == 'x86_64-pc-windows-msvc' }}
+        run: cargo test -p oxc_linter --lib scriptc
+
+      - name: Build release binary (native)
+        if: ${{ !matrix.cross }}
+        run: cargo build --release -p oxlint --target=${{ matrix.target }}
+
+      - name: Build release binary (cross)
+        if: ${{ matrix.cross }}
+        run: cross build --release -p oxlint --target=${{ matrix.target }}
+
+      # Zip (Windows) / tar.gz (Unix) to preserve the executable bit,
+      # same approach as upstream's archive-binary composite action.
+      - name: Archive binary
+        if: ${{ runner.os == 'Windows' }}
+        shell: pwsh
+        run: |
+          Move-Item "target/${{ matrix.target }}/release/oxlint.exe" "oxlint-${{ matrix.target }}.exe"
+          7z a "scriptc-oxlint-${{ matrix.target }}.zip" "oxlint-${{ matrix.target }}.exe"
+
+      - name: Archive binary
+        if: ${{ runner.os != 'Windows' }}
+        run: |
+          mv "target/${{ matrix.target }}/release/oxlint" "oxlint-${{ matrix.target }}"
+          chmod +x "oxlint-${{ matrix.target }}"
+          tar czf "scriptc-oxlint-${{ matrix.target }}.tar.gz" "oxlint-${{ matrix.target }}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          if-no-files-found: error
+          name: scriptc-oxlint-${{ matrix.target }}
+          path: |
+            scriptc-oxlint-**.zip
+            scriptc-oxlint-**.tar.gz
+
+  release:
+    name: Attach to release
+    needs: build
+    runs-on: ubuntu-slim
+    if: github.ref_name == 'scriptc-rules' && github.event_name == 'push'
+    steps:
+      - uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.3.0
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Remove previous release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete scriptc-oxlint --yes --cleanup-tag 2>/dev/null || true
+
+      - name: Create rolling release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create scriptc-oxlint \
+            --title "scriptc oxlint binaries (scriptc-rules@${GITHUB_SHA::7})" \
+            --notes "Native oxlint binaries with the scriptc plugin rules, built from the \`scriptc-rules\` branch. For the IDEA Oxc plugin, set the binary path to the extracted \`oxlint-<target>\` executable. Requires \`.oxlintrc.json\` from the scriptc repository." \
+            artifacts/scriptc-oxlint-*
