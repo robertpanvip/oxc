@@ -1,0 +1,31 @@
+---
+source: crates/oxc_linter/src/tester.rs
+---
+
+  ⚠ scriptc(corpus-no-bare-imports): bare package import `colorette` in differential-test corpus
+   ╭─[E:\AI-workspace\scriptc\tools\oxc\crates\oxc_linter\fixtures/import\tests/corpus/9000-example.ts:1:1]
+ 1 │ import { red } from 'colorette';
+   · ────────────────────────────────
+   ╰────
+  help: Flat corpus programs must be dependency-free: use `node:` built-ins, relative imports, or literals only. Package-dependent cases belong in a nested corpus directory with its own package.json, or suppress this diagnostic for a deliberate failure case.
+
+  ⚠ scriptc(corpus-no-bare-imports): bare package import `zod` in differential-test corpus
+   ╭─[E:\AI-workspace\scriptc\tools\oxc\crates\oxc_linter\fixtures/import\tests/corpus/9000-example.ts:1:1]
+ 1 │ import * as zod from 'zod';
+   · ───────────────────────────
+   ╰────
+  help: Flat corpus programs must be dependency-free: use `node:` built-ins, relative imports, or literals only. Package-dependent cases belong in a nested corpus directory with its own package.json, or suppress this diagnostic for a deliberate failure case.
+
+  ⚠ scriptc(corpus-no-bare-imports): bare package import `lodash` in differential-test corpus
+   ╭─[E:\AI-workspace\scriptc\tools\oxc\crates\oxc_linter\fixtures/import\tests/corpus/9000-example.ts:1:11]
+ 1 │ const _ = require('lodash');
+   ·           ─────────────────
+   ╰────
+  help: Flat corpus programs must be dependency-free: use `node:` built-ins, relative imports, or literals only. Package-dependent cases belong in a nested corpus directory with its own package.json, or suppress this diagnostic for a deliberate failure case.
+
+  ⚠ scriptc(corpus-no-bare-imports): bare package import `everything` in differential-test corpus
+   ╭─[E:\AI-workspace\scriptc\tools\oxc\crates\oxc_linter\fixtures/import\tests/corpus/9000-example.ts:1:1]
+ 1 │ export * from 'everything';
+   · ───────────────────────────
+   ╰────
+  help: Flat corpus programs must be dependency-free: use `node:` built-ins, relative imports, or literals only. Package-dependent cases belong in a nested corpus directory with its own package.json, or suppress this diagnostic for a deliberate failure case.

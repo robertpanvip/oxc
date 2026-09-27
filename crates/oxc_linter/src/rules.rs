@@ -3,6 +3,15 @@
 //! New rules need to be added to these `mod` statements.
 //! Then run `cargo lintgen` to regenerate the RuleEnum and RuleRunnerImpls.
 
+/// scriptc project rules — downstream-only plugin maintained on the
+/// robertpanvip fork for the scriptc repository. Not part of upstream oxc.
+pub(crate) mod scriptc {
+    pub mod colocated_test_naming;
+    pub mod corpus_no_bare_imports;
+    pub mod corpus_no_nondeterminism;
+}
+
+
 /// <https://github.com/import-js/eslint-plugin-import>
 pub(crate) mod import {
     pub mod consistent_type_specifier_style;

@@ -1,0 +1,17 @@
+---
+source: crates/oxc_linter/src/tester.rs
+---
+
+  ⚠ scriptc(colocated-test-naming): co-located test file `validate.test.ts` has no matching source file
+   ╭─[E:\AI-workspace\scriptc\tools\oxc\crates\oxc_linter\fixtures/import\packages/compiler/src/ir/validate.test.ts:1:1]
+ 1 │ console.log(1);
+   · ▲
+   ╰────
+  help: White-box tests under packages/*/src must be named after their source file (`cc.ts` → `cc.test.ts`). Rename this test after an existing source file, move it to `packages/*/test`, or delete it.
+
+  ⚠ scriptc(colocated-test-naming): co-located test file `validate.test.ts` has no matching source file
+   ╭─[E:\AI-workspace\scriptc\tools\oxc\crates\oxc_linter\fixtures/import\packages/compiler/src/ir/validate.test.ts:1:1]
+ 1 │ console.log(2);
+   · ▲
+   ╰────
+  help: White-box tests under packages/*/src must be named after their source file (`cc.ts` → `cc.test.ts`). Rename this test after an existing source file, move it to `packages/*/test`, or delete it.

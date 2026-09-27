@@ -1,0 +1,38 @@
+---
+source: crates/oxc_linter/src/tester.rs
+---
+
+  ⚠ scriptc(corpus-no-nondeterminism): nondeterministic API `Date.now()` in differential-test corpus
+   ╭─[E:\AI-workspace\scriptc\tools\oxc\crates\oxc_linter\fixtures/import\tests/corpus/9000-example.ts:1:13]
+ 1 │ console.log(Date.now());
+   ·             ──────────
+   ╰────
+  help: The current epoch time differs between the Node run and the compiled run. Replace it with a deterministic value so Node and the compiled binary keep matching byte-for-byte.
+
+  ⚠ scriptc(corpus-no-nondeterminism): nondeterministic API `Math.random()` in differential-test corpus
+   ╭─[E:\AI-workspace\scriptc\tools\oxc\crates\oxc_linter\fixtures/import\tests/corpus/9000-example.ts:1:13]
+ 1 │ console.log(Math.random());
+   ·             ─────────────
+   ╰────
+  help: Random values differ between the Node run and the compiled run. Replace it with a deterministic value so Node and the compiled binary keep matching byte-for-byte.
+
+  ⚠ scriptc(corpus-no-nondeterminism): nondeterministic API `performance.now()` in differential-test corpus
+   ╭─[E:\AI-workspace\scriptc\tools\oxc\crates\oxc_linter\fixtures/import\tests/corpus/9000-example.ts:1:13]
+ 1 │ console.log(performance.now());
+   ·             ─────────────────
+   ╰────
+  help: High-resolution timing differs between runs and runtimes. Replace it with a deterministic value so Node and the compiled binary keep matching byte-for-byte.
+
+  ⚠ scriptc(corpus-no-nondeterminism): nondeterministic API `new Date()` in differential-test corpus
+   ╭─[E:\AI-workspace\scriptc\tools\oxc\crates\oxc_linter\fixtures/import\tests/corpus/9000-example.ts:1:13]
+ 1 │ console.log(new Date());
+   ·             ──────────
+   ╰────
+  help: The current time differs between the Node run and the compiled run. Replace it with a deterministic value so Node and the compiled binary keep matching byte-for-byte.
+
+  ⚠ scriptc(corpus-no-nondeterminism): nondeterministic API `new Date()` in differential-test corpus
+   ╭─[E:\AI-workspace\scriptc\tools\oxc\crates\oxc_linter\fixtures/import\tests/corpus/9000-example.ts:1:13]
+ 1 │ console.log(new Date(undefined));
+   ·             ───────────────────
+   ╰────
+  help: The current time differs between the Node run and the compiled run. Replace it with a deterministic value so Node and the compiled binary keep matching byte-for-byte.
